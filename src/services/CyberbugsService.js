@@ -4,7 +4,7 @@ const { DOMAIN_CYBERBUG, TOKEN } = require("../util/constants/settingSystem")
 export const cyberbugsService = { 
     signinCyberBugs: (userLogin) => {
        return Axios({
-            url:`${DOMAIN_CYBERBUG}/users/signin`,
+            url:`${DOMAIN_CYBERBUG}/Users/signin`,
             method:'POST',
             data: userLogin
         }) 

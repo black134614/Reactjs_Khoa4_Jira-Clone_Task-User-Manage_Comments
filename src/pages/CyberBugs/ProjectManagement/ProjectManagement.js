@@ -4,31 +4,37 @@ import ReactHtmlParser from "react-html-parser";
 import { FormOutlined, DeleteOutlined,CloseSquareOutlined } from '@ant-design/icons'
 import { useSelector, useDispatch } from 'react-redux'
 import FormEditProject from '../../../components/Forms/FormEditProject.js/FormEditProject';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Redirect } from 'react-router-dom';
+import { USER_LOGIN } from '../../../util/constants/settingSystem';
 
 
 
 export default function ProjectManagement(props) {
+    
     //Lấy dữ liệu từ reducer về component
     const projectList = useSelector(state => state.ProjectCyberBugsReducer.projectList);
-
+    
     const { userSearch } = useSelector(state => state.UserLoginCyberBugsReducer);
 
     const [value, setValue] = useState('');
-
+    
     const searchRef = useRef(null);
-
+    
     //Sử dụng useDispatch để gọi action
     const dispatch = useDispatch();
     const [state, setState] = useState({
         filteredInfo: null,
         sortedInfo: null,
     });
-
+    
     useEffect(() => {
         dispatch({ type: 'GET_LIST_PROJECT_SAGA' })
     }, [])
-
+    
+    if (!localStorage.getItem(USER_LOGIN)) {
+        alert('Bạn không có quyền truy cập vào trang này !')
+        return <Redirect to='/signup' />
+    }
     const handleChange = (pagination, filters, sorter) => {
         console.log('Various parameters', pagination, filters, sorter);
         setState({

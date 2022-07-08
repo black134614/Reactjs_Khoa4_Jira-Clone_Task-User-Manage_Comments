@@ -23,8 +23,16 @@ export default function UsersManagement(props) {
             type: GET_ALL_USER_SAGA
         })
     }, []);
-    let data = useSelector((state)=>state.UserLoginCyberBugsReducer.arrUser).map((item, index)=>{
-        return {...item, key: index + 1 }
+    const searchUser = (e) => {
+        const keyWord = e.target.value;
+        console.log(keyWord);
+        dispatch({
+            type: GET_ALL_USER_SAGA,
+            keyWord: keyWord
+        })
+    }
+    let data = useSelector((state) => state.UserLoginCyberBugsReducer.arrUser).map((item, index) => {
+        return { ...item, key: index + 1 }
     });
     const columns = [
         {
@@ -55,13 +63,13 @@ export default function UsersManagement(props) {
                     <button className="btn mr-2 btn-primary" onClick={() => {
                         const user = {
                             userId: record.userId,
-                            name : record.name,
+                            name: record.name,
                             email: record.email,
                             phoneNumber: record.phoneNumber
                         }
                         dispatch({
                             type: 'OPEN_FORM_EDIT_USER',
-                            title:'Edit User',
+                            title: 'Edit User',
                             Component: <EditUserForm user={user} />,
                         })
                     }}>
@@ -75,7 +83,7 @@ export default function UsersManagement(props) {
                                 userId: record.userId
                             })
                         }}
-    
+
                         okText="Yes"
                         cancelText="No"
                     >
@@ -83,7 +91,7 @@ export default function UsersManagement(props) {
                             <DeleteOutlined style={{ fontSize: 17 }} />
                         </button>
                     </Popconfirm>
-    
+
                 </div>
             },
         }
@@ -112,10 +120,11 @@ export default function UsersManagement(props) {
                     <h5 className='m-0'>Create User</h5>
                 </NavLink>
                 <Search
-                    placeholder="input search text"
+                    placeholder="Search email , phone number account ..."
                     allowClear
                     enterButton="Search"
                     className='mb-2 mt-4'
+                    onChange={(e) => { searchUser(e) }}
                 />
             </div>
 

@@ -27,15 +27,18 @@ export class UserService extends baseService {
     }
     //service sign up user viet dua theo class ke thua base service
     signupUser = (newUser) => {
-        return this.post(`/Users/signup`, newUser);
+        return this.post(`/Users/signup`, newUser)
     }
-    getAllUser = ()=>{
-        return this.get("Users/getUser")
+    getAllUser = (keyWord) => {
+        if (keyWord === '' || keyWord === undefined) {
+            return this.get("Users/getUser")
+        }
+        return this.get("Users/getUser?keyword=" + keyWord)
     }
-    editUser = (user)=>{
+    editUser = (user) => {
         return this.put("Users/editUser", user)
     }
-    deleteUser = (userId)=>{
+    deleteUser = (userId) => {
         return this.delete("Users/deleteUser?id=" + userId)
     }
 }
